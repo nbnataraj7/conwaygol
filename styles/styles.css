@@ -17,3 +17,22 @@ body {
 #board {
     margin: auto;
 }
+
+#generationNumber {
+    padding: 10px;
+    font-size: 15px;
+    font-family: sans-serif;
+    top: 0px;
+    left: 0px;
+}
+
+.control-box {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+#animControl {
+    
+}

@@ -71,6 +71,7 @@
                 }
             }
         }
+        document.getElementById("generationNumber").textContent = "Generation : "+generation;
     }
 
     /**
