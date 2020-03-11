@@ -7,7 +7,8 @@
     var grid = null;
     //Cell numbers starting from 0 - top left (0 - rows*cols)
     // var seed = [24, 73, 122, 123, 188, 330, 450, 878, 111, 200, 510, 612, 789, 819, 1200, 1300, 1500, 1800];
-    var seed = [53, 54, 102, 105, 153, 154];
+    // var seed = [53, 54, 102, 105, 153, 154];
+    var seed = [222, 223, 224];
     var generation = 0;
 
     //Classes
@@ -67,11 +68,11 @@
         for (let i = 0; i < grid.cells.length; i++) {
             for (let j = 0; j < grid.cells[i].length; j++) {
                 if (grid.cells[i][j].getStatus()) {
-                    context.fillRect(i * size, j * size, size, size);
+                    context.fillRect(j * size, i * size, size, size);
                 }
             }
         }
-        document.getElementById("generationNumber").textContent = "Generation : "+generation;
+        document.getElementById("generationNumber").textContent = "Generation : " + generation;
     }
 
     /**
@@ -82,18 +83,18 @@
      * 4. Any dead cell with exactly three live neighbours becomes a live cell (Reproduction)
      */
     function runGeneration() {
-        var _tempGrid = Object.assign({}, grid);
-        for (let i = 0; i < _tempGrid.cells.length; i++) {
-            for (let j = 0; j < _tempGrid.cells[i].length; j++) {
-                if (_tempGrid.cells[i][j].getStatus()) {
-                    if (_tempGrid.cells[i][j].getLiveNeighbours() < 2) {
+        let _tempGrid = new Grid(grid.rows, grid.cols, deepCopyArray(grid.cells.slice()));
+        for (let i = 0; i < grid.cells.length; i++) {
+            for (let j = 0; j < grid.cells[i].length; j++) {
+                if (grid.cells[i][j].getStatus()) {
+                    if (grid.cells[i][j].getLiveNeighbours() < 2) {
                         _tempGrid.cells[i][j].setStatus(false); //Underpopulation
                     }
-                    if (_tempGrid.cells[i][j].getLiveNeighbours() > 3) {
+                    if (grid.cells[i][j].getLiveNeighbours() > 3) {
                         _tempGrid.cells[i][j].setStatus(false); //Overpopulation
                     }
                 }
-                else if (!_tempGrid.cells[i][j].getStatus() && _tempGrid.cells[i][j].getLiveNeighbours() == 3) {
+                else if (!grid.cells[i][j].getStatus() && grid.cells[i][j].getLiveNeighbours() == 3) {
                     _tempGrid.cells[i][j].setStatus(true); //Reproduction
                 }
             }
@@ -124,8 +125,8 @@
         //     seed[i] = Math.floor(Math.random() * 10000 % 2500)
         // }
         seed.forEach(s => {
-            let row = (s % cols);
-            let col = Math.floor(s / rows);
+            let col = (s % cols);
+            let row = Math.floor(s / rows);
             cells[row][col].setStatus(true);
             console.log("row - " + row + " col - " + col);
         });
@@ -173,6 +174,35 @@
             runGeneration();
             renderFrame();
         }, 1000);
+    }
+
+
+    /** Utils **/
+
+    /**
+     * 
+     * @param {Array} arr
+     * @description deserializes input array, serializes it and returns
+     */
+    function deepCopyArray(arr) {
+        let clone = new Array(arr.length);
+        try {
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] instanceof Array) {
+                    clone[i] = deepCopyArray(arr[i]);
+                }
+                else if (arr[i] instanceof Cell) {
+                    clone[i] = new Cell(arr[i].row, arr[i].col, arr[i].status);
+                }
+                else {
+                    clone[i] = JSON.parse(JSON.stringify(arr[i]));
+                }
+            }
+            return clone;
+        }
+        catch (e) {
+            return {};
+        }
     }
 
 
