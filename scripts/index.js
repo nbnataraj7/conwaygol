@@ -14,6 +14,8 @@
     var seed = [53, 54, 102, 103, 153];
     //die hard
     seed = [102, 103, 153, 157, 158, 159, 58];
+    //spaceship
+    seed = [53, 104, 105, 153, 154];
     var generation = 0;
 
     //Classes
@@ -178,7 +180,7 @@
             console.log("Generation -> " + generation);
             runGeneration();
             renderFrame();
-        }, 1000);
+        }, 400);
     }
 
 
