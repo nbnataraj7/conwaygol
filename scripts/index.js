@@ -6,9 +6,14 @@
     var size = 10;
     var grid = null;
     //Cell numbers starting from 0 - top left (0 - rows*cols)
-    // var seed = [24, 73, 122, 123, 188, 330, 450, 878, 111, 200, 510, 612, 789, 819, 1200, 1300, 1500, 1800];
-    // var seed = [53, 54, 102, 105, 153, 154];
-    var seed = [222, 223, 224];
+    //Beehive
+    var seed = [53, 54, 102, 105, 153, 154];
+    //Oscillator
+    seed = [222, 223, 224];
+    //R-pentonimo
+    var seed = [53, 54, 102, 103, 153];
+    //die hard
+    seed = [102, 103, 153, 157, 158, 159, 58];
     var generation = 0;
 
     //Classes
